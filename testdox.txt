@@ -7,4 +7,5 @@ Leilao (Unit\Core\Model\Leilao)
  [x] Leilao nao deve receber lances repetidos
  [x] Leilao deve receber lances with data set "2 - lances"
  [x] Leilao deve receber lances with data set "1 - lances"
+ [x] Leilao nao deve aceitar mais que 5 lances por usuario
 
