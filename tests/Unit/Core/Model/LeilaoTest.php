@@ -7,6 +7,7 @@ namespace Unit\Core\Model;
 use Core\Model\Lance;
 use Core\Model\Leilao;
 use Core\Model\User;
+use DomainException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -14,14 +15,14 @@ class LeilaoTest extends TestCase
 {
     public function testLeilaoNaoDeveReceberLancesRepetidos(): void
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Usuário não pode propor 2 lances consecutivos');
+
         $leilao = new Leilao('Variante');
         $ana = new User('Ana');
 
         $leilao->recebeLance(new Lance($ana, 1000));
         $leilao->recebeLance(new Lance($ana, 1500));
-
-        static::assertCount(1, $leilao->getLances());
-        static::assertEquals(1000, $leilao->getLances()[0]->getValue());
     }
 
     #[DataProvider('gerarlances')]
@@ -36,6 +37,9 @@ class LeilaoTest extends TestCase
 
     public function testLeilaoNaoDeveAceitarMaisQue5LancesPorUsuario(): void
     {
+        $this->expectException(DomainException::class);
+        $this->expectExceptionMessage('Usuário não pode propor mais de 5 lances por leilão');
+
         $leilao = new Leilao('Brasília Amarela');
 
         $joao = new User('Joao');

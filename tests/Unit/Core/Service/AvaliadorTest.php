@@ -8,6 +8,7 @@ use Core\Model\Lance;
 use Core\Model\Leilao;
 use Core\Model\User;
 use Core\Service\Avaliador;
+use DomainException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
@@ -27,6 +28,15 @@ class AvaliadorTest extends TestCase
     {
         $this->leiloeiro->avalia($leilao);
         self::assertEquals(2500, $this->leiloeiro->getMaiorValor());
+    }
+
+    public function testLeilaoNaoPodeSerVazio(): void
+    {
+        static::expectException(DomainException::class);
+        static::expectExceptionMessage('Não é possível avaliar leilão vazio');
+
+        $leilao = new Leilao('Fuscao Preto 1970');
+        $this->leiloeiro->avalia($leilao);
     }
 
     #[DataProvider('leilaoEmOrderDecrescente')]

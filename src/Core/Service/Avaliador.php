@@ -6,6 +6,7 @@ namespace Core\Service;
 
 use Core\Model\Lance;
 use Core\Model\Leilao;
+use DomainException;
 
 class Avaliador
 {
@@ -15,6 +16,10 @@ class Avaliador
 
     public function avalia(Leilao $leilao): void
     {
+        if (empty($leilao->getLances())) {
+            throw new DomainException('Não é possível avaliar leilão vazio');
+        }
+
         foreach ($leilao->getLances() as $lance) {
             if ($lance->getValue() > $this->maiorValor) {
                 $this->maiorValor = $lance->getValue();

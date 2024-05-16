@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Core\Model;
 
+use DomainException;
+
 class Leilao
 {
     private const TOTAL_MAXIMO_LANCE_POR_USUARIO = 5;
@@ -17,14 +19,14 @@ class Leilao
     public function recebeLance(Lance $lance)
     {
         if (!empty($this->lances) && $this->isLastUser($lance)) {
-            return;
+            throw new DomainException('Usuário não pode propor 2 lances consecutivos');
         }
 
         $usuario = $lance->getUser();
         $totalLancesPorUsuario = $this->quantidadeLancesPorUsuario($usuario);
 
         if ($totalLancesPorUsuario >= self::TOTAL_MAXIMO_LANCE_POR_USUARIO) {
-            return;
+            throw new DomainException('Usuário não pode propor mais de 5 lances por leilão');
         }
 
         $this->lances[] = $lance;
