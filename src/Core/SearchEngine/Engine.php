@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Core\SearchEngine;
 
 use GuzzleHttp\Client;
@@ -19,7 +21,7 @@ class Engine
 
         $html = $response->getBody();
 
-        $this->crawler->addHtmlContent($html);
+        $this->crawler->addHtmlContent((string) $html);
 
         $elements = $this->crawler->filter('span.card-curso__nome');
         $courses = [];

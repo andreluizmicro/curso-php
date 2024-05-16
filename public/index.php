@@ -2,19 +2,21 @@
 
 require_once '../vendor/autoload.php';
 
-use Core\SearchEngine\Engine;
-use GuzzleHttp\Client;
-use Symfony\Component\DomCrawler\Crawler;
+use Core\Model\Lance;
+use Core\Model\Leilao;
+use Core\Model\User;
+use Core\Service\Avaliador;
 
-require_once '../vendor/autoload.php';
+$leilao = new Leilao('Fiat 147 0Km');
 
-$client = new Client([
-    'base_uri' => 'https://www.alura.com.br/',
-]);
+$maria = new User('Maria');
+$joao = new User('João');
 
-$crawler = new Crawler();
-$engineSearch = new Engine($client, $crawler);
+$leilao->recebeLance(new Lance($joao, 2000));
+$leilao->recebeLance(new Lance($maria, 2500));
 
-$courses = $engineSearch->search('cursos-online-programacao/php');
+$leiloeiro = new Avaliador();
+$leiloeiro->avalia($leilao);
+$maiorValor = $leiloeiro->getMaiorValor();
 
-dd($courses);
+dd($maiorValor);

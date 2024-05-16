@@ -26,6 +26,7 @@
     "friendsofphp/php-cs-fixer": "^3.57"
   },
   "scripts": {
+    "test": "phpunit",
     "format": "tools/php-cs-fixer/vendor/bin/php-cs-fixer fix src --allow-risky=yes",
     "cs": "phpcs --standard=PSR12 src",
     "check": [

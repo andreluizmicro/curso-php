@@ -21,3 +21,6 @@ docker-bash:
 
 docker-check: docker-up
 	$(COMMAND) run --rm $(CONTAINER_NAME) composer check
+
+docker-test:
+	 $(COMMAND) run --rm $(CONTAINER_NAME) composer test
